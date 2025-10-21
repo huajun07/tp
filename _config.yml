@@ -1,0 +1,15 @@
+title: "yitao36"
+theme: minima
+
+header_pages:
+  - UserGuide.md
+  - DeveloperGuide.md
+  - AboutUs.md
+
+markdown: kramdown
+
+repository: "yitao36/tp"
+github_icon: "images/github-icon.png"
+
+plugins:
+  - jemoji
