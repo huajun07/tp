@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.event.Event;
 import seedu.address.model.person.Person;
 import seedu.address.ui.UiPart;
 
@@ -20,11 +21,14 @@ public class DetailedPanel extends UiPart<StackPane> {
     // Internal copy
     private final HelpPanel helpPanel = new HelpPanel();
     private final PersonPanel personPanel = new PersonPanel();
+    private final EventPanel eventPanel = new EventPanel();
 
     @FXML
     private VBox helpPanelPlaceholder;
     @FXML
     private VBox personPanelPlaceholder;
+    @FXML
+    private VBox eventPanelPlaceholder;
 
     private VBox activePanel = helpPanelPlaceholder;
 
@@ -35,10 +39,13 @@ public class DetailedPanel extends UiPart<StackPane> {
         super(FXML);
         helpPanelPlaceholder.getChildren().add(helpPanel.getRoot());
         personPanelPlaceholder.getChildren().add(personPanel.getRoot());
+        eventPanelPlaceholder.getChildren().add(eventPanel.getRoot());
 
         // Workaround to get personPanel height to fill up the whole container
         personPanel.getRoot().prefHeightProperty().bind(personPanelPlaceholder.heightProperty());
+        eventPanel.getRoot().prefHeightProperty().bind(eventPanelPlaceholder.heightProperty());
         personPanelPlaceholder.setVisible(false);
+        eventPanelPlaceholder.setVisible(false);
     }
 
     /**
@@ -52,6 +59,19 @@ public class DetailedPanel extends UiPart<StackPane> {
             showPerson();
         }
     }
+
+    /**
+     * Populates the person panel with details of the selected person.
+     */
+    public void updateDetails(Event selected) {
+        if (selected == null) {
+            showHelp();
+        } else {
+            eventPanel.updateDetails(selected);
+            showEvent();
+        }
+    }
+
 
     /**
      * Shows a helpful message on initialization of AddressBook, or if the person list is empty.
@@ -75,5 +95,17 @@ public class DetailedPanel extends UiPart<StackPane> {
         activePanel.setVisible(false);
         personPanelPlaceholder.setVisible(true);
         activePanel = helpPanelPlaceholder;
+    }
+
+    /**
+     * Shows detailed event information upon selection of event.
+     */
+    public void showEvent() {
+        if (activePanel == eventPanelPlaceholder) {
+            return;
+        }
+        activePanel.setVisible(false);
+        eventPanelPlaceholder.setVisible(true);
+        activePanel = eventPanelPlaceholder;
     }
 }

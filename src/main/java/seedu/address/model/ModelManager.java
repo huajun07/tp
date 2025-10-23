@@ -13,6 +13,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
+import seedu.address.model.event.Event;
 import seedu.address.model.person.Person;
 
 /**
@@ -24,7 +25,9 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
+    private final FilteredList<Event> filteredEvents;
     private Person selectedPerson;
+    private Event selectedEvent;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -37,7 +40,9 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        filteredEvents = new FilteredList<>(this.addressBook.getEventList());
         selectedPerson = filteredPersons.isEmpty() ? null : filteredPersons.get(0);
+        selectedEvent = null;
     }
 
     public ModelManager() {
@@ -119,7 +124,19 @@ public class ModelManager implements Model {
         addressBook.setPerson(target, editedPerson);
     }
 
-    //=========== Filtered Person List Accessors =============================================================
+    @Override
+    public boolean hasEvent(Event event) {
+        requireNonNull(event);
+        return addressBook.hasEvent(event);
+    }
+
+    @Override
+    public void addEvent(Event event) {
+        addressBook.addEvent(event);
+        updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
+    }
+
+    //=========== Filtered List Accessors =============================================================
 
     /**
      * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
@@ -136,11 +153,27 @@ public class ModelManager implements Model {
         filteredPersons.setPredicate(predicate);
     }
 
+    /**
+     * Returns an unmodifiable view of the list of {@code Event} backed by the internal list of
+     * {@code versionedAddressBook}
+     */
+    @Override
+    public ObservableList<Event> getFilteredEventList() {
+        return filteredEvents;
+    }
+
+    @Override
+    public void updateFilteredEventList(Predicate<Event> predicate) {
+        requireNonNull(predicate);
+        filteredEvents.setPredicate(predicate);
+    }
+
     //=========== Selected Person Accessors =============================================================
 
     @Override
     public void setSelectedPerson(Person p) {
         selectedPerson = p;
+        selectedEvent = null;
     }
 
     @Override
@@ -158,6 +191,26 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void setSelectedEvent(Event p) {
+        selectedEvent = p;
+        selectedPerson = null;
+    }
+
+    @Override
+    public void setSelectedEvent(Index i) {
+        if (filteredEvents.size() <= i.getZeroBased()) {
+            selectedEvent = null;
+        } else {
+            selectedEvent = filteredEvents.get(i.getZeroBased());
+        }
+    }
+
+    @Override
+    public Event getSelectedEvent() {
+        return selectedEvent;
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
@@ -171,7 +224,8 @@ public class ModelManager implements Model {
         ModelManager otherModelManager = (ModelManager) other;
         return addressBook.equals(otherModelManager.addressBook)
                 && userPrefs.equals(otherModelManager.userPrefs)
-                && filteredPersons.equals(otherModelManager.filteredPersons);
+                && filteredPersons.equals(otherModelManager.filteredPersons)
+                && filteredEvents.equals(otherModelManager.filteredEvents);
     }
 
 }

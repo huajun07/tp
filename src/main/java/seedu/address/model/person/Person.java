@@ -37,7 +37,7 @@ public class Person {
     private final Pin pin;
 
     /**
-     * Every field must be present and not null.
+     * Every field must be present and not null (except optional fields).
      */
     public Person(Name name, Phone phone, Email email, Address address, Pin pin, Set<Role> roles, Set<Tag> tags,
                   EmergencyContact emergencyContact, EnrollmentYear enrollmentYear) {

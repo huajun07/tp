@@ -10,6 +10,9 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.event.Description;
+import seedu.address.model.event.Duration;
+import seedu.address.model.event.EventName;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.EmergencyContact;
@@ -210,5 +213,50 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Parses a {@code String name} into a {@code EventName}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code name} is invalid.
+     */
+    public static EventName parseEventName(String name) throws ParseException {
+        requireNonNull(name);
+        String trimmedName = name.trim();
+        if (!EventName.isValidName(trimmedName)) {
+            throw new ParseException(EventName.MESSAGE_CONSTRAINTS);
+        }
+        return new EventName(trimmedName);
+    }
+
+    /**
+     * Parses a {@code String name} into a {@code Duration}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code name} is invalid.
+     */
+    public static Duration parseDuration(String name) throws ParseException {
+        requireNonNull(name);
+        String trimmedName = name.trim();
+        if (!Duration.isValidDuration(trimmedName)) {
+            throw new ParseException(Duration.MESSAGE_CONSTRAINTS);
+        }
+        return new Duration(trimmedName);
+    }
+
+    /**
+     * Parses a {@code String name} into a {@code Description}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code name} is invalid.
+     */
+    public static Description parseDescription(String name) throws ParseException {
+        requireNonNull(name);
+        String trimmedName = name.trim();
+        if (!Description.isValidDescription(trimmedName)) {
+            throw new ParseException(Description.MESSAGE_CONSTRAINTS);
+        }
+        return new Description(trimmedName);
     }
 }
