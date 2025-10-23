@@ -64,8 +64,8 @@ public class CommandTestUtil {
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
     public static final String NAME_DESC_MEETING = " " + PREFIX_NAME + VALID_NAME_MEETING;
     public static final String NAME_DESC_TRAINING = " " + PREFIX_NAME + VALID_NAME_TRAINING;
-    public static final String DURATION_DESC_MEETING = " " + PREFIX_DURATION + VALID_DESCRIPTION_MEETING;
-    public static final String DURATION_DESC_TRAINING = " " + PREFIX_DURATION + VALID_DESCRIPTION_TRAINING;
+    public static final String DURATION_DESC_MEETING = " " + PREFIX_DURATION + VALID_DURATION_MEETING;
+    public static final String DURATION_DESC_TRAINING = " " + PREFIX_DURATION + VALID_DURATION_TRAINING;
     public static final String DESC_DESC_MEETING = " " + PREFIX_DESCRIPTION + VALID_DESCRIPTION_MEETING;
     public static final String DESC_DESC_TRAINING = " " + PREFIX_DESCRIPTION + VALID_DESCRIPTION_TRAINING;
 
